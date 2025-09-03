@@ -26,31 +26,43 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate API call to backend
-    const fetchStats = async () => {
-      try {
-        // This would be a real API call to your NestJS backend
-        // const response = await fetch('http://localhost:3001/api/dashboard/stats');
-        // const data = await response.json();
-        
-        // Mock data for now
-        setTimeout(() => {
-          setStats({
-            totalUsers: 1234,
-            totalPosts: 567,
-            totalViews: 89012,
-            totalSettings: 12,
-          });
-          setLoading(false);
-        }, 1000);
-      } catch (error) {
-        console.error('Failed to fetch stats:', error);
-        setLoading(false);
-      }
-    };
-
     fetchStats();
+    fetchActivity();
   }, []);
+
+  const fetchStats = async () => {
+    try {
+      const response = await fetch('http://localhost:3001/api/dashboard/stats');
+      const data = await response.json();
+      setStats({
+        totalUsers: data.totalUsers,
+        totalPosts: data.totalPosts,
+        totalViews: data.totalViews,
+        totalSettings: data.totalSettings,
+      });
+    } catch (error) {
+      console.error('Failed to fetch stats:', error);
+      // Fallback to mock data if API fails
+      setStats({
+        totalUsers: 0,
+        totalPosts: 0,
+        totalViews: 0,
+        totalSettings: 0,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchActivity = async () => {
+    try {
+      const response = await fetch('http://localhost:3001/api/dashboard/activity');
+      const data = await response.json();
+      // Update activity state if you add it
+    } catch (error) {
+      console.error('Failed to fetch activity:', error);
+    }
+  };
 
   const statCards = [
     {

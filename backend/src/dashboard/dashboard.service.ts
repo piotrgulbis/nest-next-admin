@@ -1,48 +1,87 @@
 import { Injectable } from '@nestjs/common';
+import { UsersService } from '../users/users.service';
+import { PostsService } from '../posts/posts.service';
 
 @Injectable()
 export class DashboardService {
-  getStats() {
-    // In a real application, this would query your database
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly postsService: PostsService,
+  ) {}
+
+  async getStats() {
+    const [userStats, postStats] = await Promise.all([
+      this.usersService.getStats(),
+      this.postsService.getStats(),
+    ]);
+
     return {
-      totalUsers: 1234,
-      totalPosts: 567,
-      totalViews: 89012,
-      totalSettings: 12,
+      totalUsers: userStats.total,
+      totalPosts: postStats.total,
+      totalViews: postStats.totalViews,
+      totalSettings: 12, // Static for now, could be from a settings table later
+      userStats,
+      postStats,
     };
   }
 
-  getRecentActivity() {
-    // In a real application, this would query your database for recent activity
-    return [
-      { 
-        id: 1,
-        action: 'New user registered', 
-        user: 'john@example.com', 
-        time: '2 hours ago',
-        timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000)
-      },
-      { 
-        id: 2,
-        action: 'Post published', 
-        user: 'admin@example.com', 
-        time: '4 hours ago',
-        timestamp: new Date(Date.now() - 4 * 60 * 60 * 1000)
-      },
-      { 
-        id: 3,
-        action: 'Settings updated', 
-        user: 'admin@example.com', 
-        time: '6 hours ago',
-        timestamp: new Date(Date.now() - 6 * 60 * 60 * 1000)
-      },
-      { 
-        id: 4,
-        action: 'User profile updated', 
-        user: 'jane@example.com', 
-        time: '8 hours ago',
-        timestamp: new Date(Date.now() - 8 * 60 * 60 * 1000)
-      },
-    ];
+  async getRecentActivity() {
+    const [recentUsers, recentPosts] = await Promise.all([
+      this.usersService.getRecentUsers(5),
+      this.postsService.getRecentPosts(5),
+    ]);
+
+    const activities: any[] = [];
+
+    // Add recent user registrations
+    recentUsers.forEach((user) => {
+      activities.push({
+        id: `user-${user.id}`,
+        action: 'New user registered',
+        user: user.email,
+        details: `${user.firstName} ${user.lastName}`,
+        timestamp: user.createdAt,
+        type: 'user',
+      });
+    });
+
+    // Add recent post publications
+    recentPosts
+      .filter((post) => post.status === 'published')
+      .forEach((post) => {
+        activities.push({
+          id: `post-${post.id}`,
+          action: 'Post published',
+          user: post.author?.email || 'Unknown',
+          details: post.title,
+          timestamp: post.publishedAt || post.createdAt,
+          type: 'post',
+        });
+      });
+
+    // Sort by timestamp (most recent first) and limit to 10
+    return activities
+      .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
+      .slice(0, 10)
+      .map((activity) => ({
+        ...activity,
+        time: this.getTimeAgo(activity.timestamp),
+      }));
+  }
+
+  private getTimeAgo(date: Date): string {
+    const now = new Date();
+    const diffInMs = now.getTime() - new Date(date).getTime();
+    const diffInMinutes = Math.floor(diffInMs / (1000 * 60));
+    const diffInHours = Math.floor(diffInMinutes / 60);
+    const diffInDays = Math.floor(diffInHours / 24);
+
+    if (diffInMinutes < 60) {
+      return `${diffInMinutes} minutes ago`;
+    } else if (diffInHours < 24) {
+      return `${diffInHours} hours ago`;
+    } else {
+      return `${diffInDays} days ago`;
+    }
   }
 }
