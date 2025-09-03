@@ -31,7 +31,14 @@ export class DashboardService {
       this.postsService.getRecentPosts(5),
     ]);
 
-    const activities: any[] = [];
+    const activities: Array<{
+      id: string;
+      action: string;
+      user: string;
+      details: string;
+      timestamp: Date;
+      type: string;
+    }> = [];
 
     // Add recent user registrations
     recentUsers.forEach((user) => {
@@ -61,7 +68,10 @@ export class DashboardService {
 
     // Sort by timestamp (most recent first) and limit to 10
     return activities
-      .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
+      .sort(
+        (a, b) =>
+          new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime(),
+      )
       .slice(0, 10)
       .map((activity) => ({
         ...activity,

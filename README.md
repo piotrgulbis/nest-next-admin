@@ -39,6 +39,7 @@ This is a **complete, production-ready admin system** featuring:
 ## 🏗️ Architecture
 
 ### Backend (NestJS + PostgreSQL)
+
 - **API Server**: RESTful API running on port 3001
 - **Database**: PostgreSQL with TypeORM for migrations and relationships
 - **Entities**: User, Post, Category with complete relationships
@@ -46,6 +47,7 @@ This is a **complete, production-ready admin system** featuring:
 - **Seeding**: Automatic sample data generation for development
 
 ### Frontend (Next.js + Tailwind)
+
 - **Admin Dashboard**: Modern responsive interface on port 3000
 - **Pages**: Dashboard, Users Management, Settings
 - **Components**: Reusable UI components with Heroicons
@@ -54,11 +56,13 @@ This is a **complete, production-ready admin system** featuring:
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 - Node.js 18+
 - PostgreSQL 15+
 - npm or yarn
 
 ### 1. Clone and Install
+
 ```bash
 git clone https://github.com/piotrgulbis/nest-next-admin.git
 cd nest-next-admin
@@ -66,6 +70,7 @@ npm install
 ```
 
 ### 2. Database Setup
+
 ```bash
 # Install PostgreSQL (see DATABASE_SETUP.md for detailed instructions)
 # Create database
@@ -77,6 +82,7 @@ cp backend/.env.example backend/.env
 ```
 
 ### 3. Start Development Servers
+
 ```bash
 # Start both backend and frontend
 npm run dev
@@ -90,6 +96,7 @@ cd admin && npm run dev
 ```
 
 ### 4. Access the Application
+
 - **Admin Dashboard**: http://localhost:3000/admin
 - **Backend API**: http://localhost:3001/api
 - **Default Admin**: admin@example.com / admin123
@@ -127,6 +134,7 @@ nest-next-admin/
 ## 🔧 Features
 
 ### 👤 User Management
+
 - Complete user CRUD operations
 - Role-based access (Admin, Moderator, User)
 - User status management (Active, Inactive, Suspended)
@@ -134,6 +142,7 @@ nest-next-admin/
 - User statistics and analytics
 
 ### 📝 Content Management
+
 - Full blog post system with rich content support
 - Category organization with hierarchical structure
 - Post status workflow (Draft, Published, Archived)
@@ -141,6 +150,7 @@ nest-next-admin/
 - Engagement tracking (views, likes, shares)
 
 ### 📊 Dashboard & Analytics
+
 - Real-time statistics dashboard
 - User and content metrics
 - Recent activity monitoring
@@ -148,6 +158,7 @@ nest-next-admin/
 - Interactive charts and graphs
 
 ### 🎨 Admin Interface
+
 - Modern, responsive design
 - Intuitive navigation and UX
 - Mobile-friendly interface
@@ -157,6 +168,7 @@ nest-next-admin/
 ## 🛠️ API Endpoints
 
 ### Users
+
 - `GET /api/users` - List users with pagination
 - `POST /api/users` - Create new user
 - `GET /api/users/:id` - Get user details
@@ -165,6 +177,7 @@ nest-next-admin/
 - `GET /api/users/stats` - User statistics
 
 ### Posts
+
 - `GET /api/posts` - List posts with filtering
 - `POST /api/posts` - Create new post
 - `GET /api/posts/:id` - Get post details
@@ -174,6 +187,7 @@ nest-next-admin/
 - `GET /api/posts/stats` - Post statistics
 
 ### Dashboard
+
 - `GET /api/dashboard/stats` - System statistics
 - `GET /api/dashboard/activity` - Recent activity
 
@@ -204,6 +218,7 @@ Warp.dev made it possible to build this enterprise-grade admin system efficientl
 ## 🔧 Development
 
 ### Database Migrations
+
 ```bash
 cd backend
 
@@ -218,12 +233,14 @@ npm run migration:revert
 ```
 
 ### Seeding Data
+
 ```bash
 # Database is automatically seeded on startup in development
 # Includes sample users and posts with realistic data
 ```
 
 ### Code Quality
+
 ```bash
 # Lint code
 npm run lint
@@ -238,6 +255,7 @@ npm run test
 ## 🚀 Deployment
 
 The project is structured for easy deployment on platforms like:
+
 - **Vercel** (Frontend)
 - **Railway** or **Heroku** (Backend)
 - **Supabase** or **AWS RDS** (Database)

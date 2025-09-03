@@ -30,33 +30,33 @@ export enum UserStatus {
 @Entity('users')
 export class User {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+    id: string;
 
   @Column({ unique: true })
   @IsEmail()
   @IsNotEmpty()
-  email: string;
+    email: string;
 
   @Column()
   @IsNotEmpty()
   @MinLength(6)
-  password: string;
+    password: string;
 
   @Column()
   @IsNotEmpty()
-  firstName: string;
+    firstName: string;
 
   @Column()
   @IsNotEmpty()
-  lastName: string;
+    lastName: string;
 
   @Column({ nullable: true })
   @IsOptional()
-  avatar?: string;
+    avatar?: string;
 
   @Column({ nullable: true })
   @IsOptional()
-  phone?: string;
+    phone?: string;
 
   @Column({
     type: 'enum',
@@ -64,7 +64,7 @@ export class User {
     default: UserRole.USER,
   })
   @IsEnum(UserRole)
-  role: UserRole;
+    role: UserRole;
 
   @Column({
     type: 'enum',
@@ -72,36 +72,36 @@ export class User {
     default: UserStatus.ACTIVE,
   })
   @IsEnum(UserStatus)
-  status: UserStatus;
+    status: UserStatus;
 
   @Column({ nullable: true })
   @IsOptional()
-  lastLoginAt?: Date;
+    lastLoginAt?: Date;
 
   @Column({ default: false })
-  emailVerified: boolean;
+    emailVerified: boolean;
 
   @Column({ nullable: true })
   @IsOptional()
-  emailVerificationToken?: string;
+    emailVerificationToken?: string;
 
   @Column({ nullable: true })
   @IsOptional()
-  passwordResetToken?: string;
+    passwordResetToken?: string;
 
   @Column({ nullable: true })
   @IsOptional()
-  passwordResetExpiresAt?: Date;
+    passwordResetExpiresAt?: Date;
 
   @CreateDateColumn()
-  createdAt: Date;
+    createdAt: Date;
 
   @UpdateDateColumn()
-  updatedAt: Date;
+    updatedAt: Date;
 
   // Relations
   @OneToMany(() => Post, (post) => post.author)
-  posts: Post[];
+    posts: Post[];
 
   // Helper methods
   get fullName(): string {

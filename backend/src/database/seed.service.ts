@@ -1,7 +1,7 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { PostsService } from '../posts/posts.service';
-import { UserRole, UserStatus } from '../entities/user.entity';
+import { UserRole } from '../entities/user.entity';
 import { PostStatus, PostType } from '../entities/post.entity';
 
 @Injectable()
@@ -40,13 +40,17 @@ export class SeedService implements OnModuleInit {
       });
 
       // Create regular users
-      const users: any[] = [];
+      const users: Array<{ id: string; firstName: string; lastName: string; email: string }> = [];
       const userNames = [
         { firstName: 'John', lastName: 'Doe', email: 'john@example.com' },
         { firstName: 'Jane', lastName: 'Smith', email: 'jane@example.com' },
         { firstName: 'Bob', lastName: 'Johnson', email: 'bob@example.com' },
         { firstName: 'Alice', lastName: 'Wilson', email: 'alice@example.com' },
-        { firstName: 'Charlie', lastName: 'Brown', email: 'charlie@example.com' },
+        {
+          firstName: 'Charlie',
+          lastName: 'Brown',
+          email: 'charlie@example.com',
+        },
       ];
 
       for (const userData of userNames) {
@@ -63,7 +67,8 @@ export class SeedService implements OnModuleInit {
         {
           title: 'Getting Started with NestJS',
           slug: 'getting-started-with-nestjs',
-          excerpt: 'Learn the basics of building scalable Node.js applications with NestJS framework.',
+          excerpt:
+            'Learn the basics of building scalable Node.js applications with NestJS framework.',
           content: `
             <h2>Introduction to NestJS</h2>
             <p>NestJS is a progressive Node.js framework for building efficient and scalable server-side applications. It uses modern JavaScript, is built with TypeScript, and combines elements of OOP, FP, and FRP.</p>
@@ -87,7 +92,8 @@ export class SeedService implements OnModuleInit {
         {
           title: 'Database Integration with TypeORM',
           slug: 'database-integration-typeorm',
-          excerpt: 'Learn how to integrate PostgreSQL with your NestJS application using TypeORM.',
+          excerpt:
+            'Learn how to integrate PostgreSQL with your NestJS application using TypeORM.',
           content: `
             <h2>Setting up TypeORM with PostgreSQL</h2>
             <p>TypeORM is a powerful ORM that works well with NestJS. In this tutorial, we'll set up PostgreSQL integration.</p>
@@ -106,7 +112,8 @@ export class SeedService implements OnModuleInit {
         {
           title: 'Building a RESTful API',
           slug: 'building-restful-api',
-          excerpt: 'Create a complete RESTful API with CRUD operations using NestJS.',
+          excerpt:
+            'Create a complete RESTful API with CRUD operations using NestJS.',
           content: `
             <h2>REST API Best Practices</h2>
             <p>Building a RESTful API requires following certain conventions and best practices.</p>
@@ -128,7 +135,8 @@ export class SeedService implements OnModuleInit {
         {
           title: 'Authentication and Authorization',
           slug: 'authentication-authorization',
-          excerpt: 'Implement secure authentication and authorization in your NestJS application.',
+          excerpt:
+            'Implement secure authentication and authorization in your NestJS application.',
           content: `
             <h2>Securing Your Application</h2>
             <p>Security is crucial for any web application. Learn how to implement JWT-based authentication.</p>
@@ -144,7 +152,8 @@ export class SeedService implements OnModuleInit {
         {
           title: 'Next.js Admin Dashboard',
           slug: 'nextjs-admin-dashboard',
-          excerpt: 'Build a modern admin dashboard using Next.js and TypeScript.',
+          excerpt:
+            'Build a modern admin dashboard using Next.js and TypeScript.',
           content: `
             <h2>Modern Admin Interfaces</h2>
             <p>Next.js provides an excellent foundation for building fast, modern admin dashboards.</p>

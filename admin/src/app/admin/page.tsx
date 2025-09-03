@@ -2,12 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import AdminLayout from '@/components/AdminLayout';
-import {
-  UsersIcon,
-  DocumentTextIcon,
-  ChartBarIcon,
-  CogIcon,
-} from '@heroicons/react/24/outline';
+import { UsersIcon, DocumentTextIcon, ChartBarIcon, CogIcon } from '@heroicons/react/24/outline';
 
 interface DashboardStats {
   totalUsers: number;
@@ -57,7 +52,7 @@ export default function AdminDashboard() {
   const fetchActivity = async () => {
     try {
       const response = await fetch('http://localhost:3001/api/dashboard/activity');
-      const data = await response.json();
+      await response.json();
       // Update activity state if you add it
     } catch (error) {
       console.error('Failed to fetch activity:', error);
@@ -108,13 +103,13 @@ export default function AdminDashboard() {
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
           <p className="mt-1 text-sm text-gray-500">
-            Welcome to your admin dashboard. Here's what's happening with your application.
+            Welcome to your admin dashboard. Here&apos;s what&apos;s happening with your application.
           </p>
         </div>
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {statCards.map((stat) => (
+          {statCards.map(stat => (
             <div key={stat.name} className="bg-white rounded-lg shadow p-6">
               <div className="flex items-center">
                 <div className={`flex-shrink-0 p-3 rounded-md ${stat.color}`}>

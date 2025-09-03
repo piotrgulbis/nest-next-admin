@@ -1,4 +1,8 @@
-import { Injectable, ConflictException, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  ConflictException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User, UserRole, UserStatus } from '../entities/user.entity';
@@ -49,12 +53,24 @@ export class UsersService {
     return await this.userRepository.save(user);
   }
 
-  async findAll(page = 1, limit = 10): Promise<{ users: User[]; total: number; pages: number }> {
+  async findAll(
+    page = 1,
+    limit = 10,
+  ): Promise<{ users: User[]; total: number; pages: number }> {
     const [users, total] = await this.userRepository.findAndCount({
       take: limit,
       skip: (page - 1) * limit,
       order: { createdAt: 'DESC' },
-      select: ['id', 'email', 'firstName', 'lastName', 'role', 'status', 'createdAt', 'lastLoginAt'],
+      select: [
+        'id',
+        'email',
+        'firstName',
+        'lastName',
+        'role',
+        'status',
+        'createdAt',
+        'lastLoginAt',
+      ],
     });
 
     return {
@@ -67,7 +83,20 @@ export class UsersService {
   async findOne(id: string): Promise<User> {
     const user = await this.userRepository.findOne({
       where: { id },
-      select: ['id', 'email', 'firstName', 'lastName', 'phone', 'avatar', 'role', 'status', 'emailVerified', 'createdAt', 'updatedAt', 'lastLoginAt'],
+      select: [
+        'id',
+        'email',
+        'firstName',
+        'lastName',
+        'phone',
+        'avatar',
+        'role',
+        'status',
+        'emailVerified',
+        'createdAt',
+        'updatedAt',
+        'lastLoginAt',
+      ],
     });
 
     if (!user) {
@@ -87,7 +116,7 @@ export class UsersService {
     const user = await this.findOne(id);
 
     Object.assign(user, updateUserDto);
-    
+
     return await this.userRepository.save(user);
   }
 
@@ -119,7 +148,7 @@ export class UsersService {
     const admins = await this.userRepository.count({
       where: { role: UserRole.ADMIN },
     });
-    
+
     // Users created in the last 7 days
     const sevenDaysAgo = new Date();
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);

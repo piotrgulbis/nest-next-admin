@@ -3,13 +3,7 @@
 import { useState, ReactNode } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import {
-  HomeIcon,
-  UsersIcon,
-  CogIcon,
-  Bars3Icon,
-  XMarkIcon,
-} from '@heroicons/react/24/outline';
+import { HomeIcon, UsersIcon, CogIcon, Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 
 interface AdminLayoutProps {
   children: ReactNode;
@@ -30,7 +24,10 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       {/* Mobile sidebar */}
       {sidebarOpen && (
         <div className="fixed inset-0 z-40 lg:hidden">
-          <div className="fixed inset-0 bg-gray-600 bg-opacity-75" onClick={() => setSidebarOpen(false)} />
+          <div
+            className="fixed inset-0 bg-gray-600 bg-opacity-75"
+            onClick={() => setSidebarOpen(false)}
+          />
           <div className="relative flex flex-col w-64 bg-white shadow-xl">
             <div className="flex items-center justify-between p-4 border-b">
               <h1 className="text-xl font-semibold text-gray-900">Admin Panel</h1>
@@ -39,7 +36,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
               </button>
             </div>
             <nav className="flex-1 p-4 space-y-2">
-              {navigation.map((item) => {
+              {navigation.map(item => {
                 const isActive = pathname === item.href;
                 return (
                   <Link
@@ -69,7 +66,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             <h1 className="text-xl font-semibold text-gray-900">Admin Panel</h1>
           </div>
           <nav className="flex-1 p-4 space-y-2">
-            {navigation.map((item) => {
+            {navigation.map(item => {
               const isActive = pathname === item.href;
               return (
                 <Link
@@ -114,9 +111,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         </div>
 
         {/* Page content */}
-        <main className="p-6">
-          {children}
-        </main>
+        <main className="p-6">{children}</main>
       </div>
     </div>
   );
