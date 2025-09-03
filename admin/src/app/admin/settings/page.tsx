@@ -4,7 +4,7 @@ import { useState } from 'react';
 import AdminLayout from '@/components/AdminLayout';
 import {
   CogIcon,
-  DatabaseIcon,
+  CircleStackIcon,
   ShieldCheckIcon,
   BellIcon,
   GlobeAltIcon,
@@ -25,7 +25,7 @@ export default function AdminSettings() {
 
   const tabs = [
     { id: 'general', name: 'General', icon: CogIcon },
-    { id: 'database', name: 'Database', icon: DatabaseIcon },
+    { id: 'database', name: 'Database', icon: CircleStackIcon },
     { id: 'security', name: 'Security', icon: ShieldCheckIcon },
     { id: 'notifications', name: 'Notifications', icon: BellIcon },
     { id: 'api', name: 'API Settings', icon: GlobeAltIcon },
@@ -144,7 +144,7 @@ export default function AdminSettings() {
                   <div className="space-y-4">
                     <div className="bg-blue-50 border border-blue-200 rounded-md p-4">
                       <div className="flex">
-                        <DatabaseIcon className="w-5 h-5 text-blue-400 mr-2" />
+                        <CircleStackIcon className="w-5 h-5 text-blue-400 mr-2" />
                         <div>
                           <h3 className="text-sm font-medium text-blue-800">Database Status</h3>
                           <p className="text-sm text-blue-700 mt-1">

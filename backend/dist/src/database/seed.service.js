@@ -49,7 +49,11 @@ let SeedService = class SeedService {
                 { firstName: 'Jane', lastName: 'Smith', email: 'jane@example.com' },
                 { firstName: 'Bob', lastName: 'Johnson', email: 'bob@example.com' },
                 { firstName: 'Alice', lastName: 'Wilson', email: 'alice@example.com' },
-                { firstName: 'Charlie', lastName: 'Brown', email: 'charlie@example.com' },
+                {
+                    firstName: 'Charlie',
+                    lastName: 'Brown',
+                    email: 'charlie@example.com',
+                },
             ];
             for (const userData of userNames) {
                 const user = await this.usersService.create({

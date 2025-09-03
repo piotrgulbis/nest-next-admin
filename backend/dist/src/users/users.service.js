@@ -76,7 +76,16 @@ let UsersService = class UsersService {
             take: limit,
             skip: (page - 1) * limit,
             order: { createdAt: 'DESC' },
-            select: ['id', 'email', 'firstName', 'lastName', 'role', 'status', 'createdAt', 'lastLoginAt'],
+            select: [
+                'id',
+                'email',
+                'firstName',
+                'lastName',
+                'role',
+                'status',
+                'createdAt',
+                'lastLoginAt',
+            ],
         });
         return {
             users,
@@ -87,7 +96,20 @@ let UsersService = class UsersService {
     async findOne(id) {
         const user = await this.userRepository.findOne({
             where: { id },
-            select: ['id', 'email', 'firstName', 'lastName', 'phone', 'avatar', 'role', 'status', 'emailVerified', 'createdAt', 'updatedAt', 'lastLoginAt'],
+            select: [
+                'id',
+                'email',
+                'firstName',
+                'lastName',
+                'phone',
+                'avatar',
+                'role',
+                'status',
+                'emailVerified',
+                'createdAt',
+                'updatedAt',
+                'lastLoginAt',
+            ],
         });
         if (!user) {
             throw new common_1.NotFoundException('User not found');

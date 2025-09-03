@@ -53,7 +53,10 @@ let Post = class Post {
     author;
     category;
     get isPublished() {
-        return this.status === PostStatus.PUBLISHED && this.publishedAt !== null && this.publishedAt !== undefined && this.publishedAt <= new Date();
+        return (this.status === PostStatus.PUBLISHED &&
+            this.publishedAt !== null &&
+            this.publishedAt !== undefined &&
+            this.publishedAt <= new Date());
     }
     get isDraft() {
         return this.status === PostStatus.DRAFT;
@@ -63,7 +66,7 @@ let Post = class Post {
         return Math.ceil(wordCount / 200);
     }
     get summary() {
-        return this.excerpt || this.content.substring(0, 200) + '...';
+        return this.excerpt || `${this.content.substring(0, 200)}...`;
     }
 };
 exports.Post = Post;

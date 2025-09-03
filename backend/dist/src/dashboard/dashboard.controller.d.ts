@@ -24,5 +24,13 @@ export declare class DashboardController {
             recentCount: number;
         };
     }>;
-    getRecentActivity(): Promise<any[]>;
+    getRecentActivity(): Promise<{
+        time: string;
+        id: string;
+        action: string;
+        user: string;
+        details: string;
+        timestamp: Date;
+        type: string;
+    }[]>;
 }
