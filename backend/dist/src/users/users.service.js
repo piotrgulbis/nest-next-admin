@@ -63,13 +63,17 @@ let UsersService = class UsersService {
         if (existingUser) {
             throw new common_1.ConflictException('User with this email already exists');
         }
-        const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
+        const password = createUserDto.password || 'TempPassword123!';
+        const hashedPassword = await bcrypt.hash(password, 10);
         const user = this.userRepository.create({
             ...createUserDto,
             password: hashedPassword,
             role: createUserDto.role || user_entity_1.UserRole.USER,
+            status: createUserDto.status || user_entity_1.UserStatus.ACTIVE,
         });
-        return await this.userRepository.save(user);
+        const savedUser = await this.userRepository.save(user);
+        const { password: _, ...userWithoutPassword } = savedUser;
+        return userWithoutPassword;
     }
     async findAll(page = 1, limit = 10) {
         const [users, total] = await this.userRepository.findAndCount({
@@ -123,8 +127,18 @@ let UsersService = class UsersService {
     }
     async update(id, updateUserDto) {
         const user = await this.findOne(id);
+        if (updateUserDto.email && updateUserDto.email !== user.email) {
+            const existingUser = await this.userRepository.findOne({
+                where: { email: updateUserDto.email },
+            });
+            if (existingUser) {
+                throw new common_1.ConflictException('User with this email already exists');
+            }
+        }
         Object.assign(user, updateUserDto);
-        return await this.userRepository.save(user);
+        const savedUser = await this.userRepository.save(user);
+        const { password: _, ...userWithoutPassword } = savedUser;
+        return userWithoutPassword;
     }
     async remove(id) {
         const user = await this.findOne(id);

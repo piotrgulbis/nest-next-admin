@@ -10,14 +10,16 @@ import * as bcrypt from 'bcrypt';
 
 export interface CreateUserDto {
   email: string;
-  password: string;
   firstName: string;
   lastName: string;
   role?: UserRole;
+  status?: UserStatus;
+  password?: string;
   phone?: string;
 }
 
 export interface UpdateUserDto {
+  email?: string;
   firstName?: string;
   lastName?: string;
   phone?: string;
@@ -42,15 +44,22 @@ export class UsersService {
       throw new ConflictException('User with this email already exists');
     }
 
-    const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
+    // Generate a temporary password if none provided
+    const password = createUserDto.password || 'TempPassword123!';
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = this.userRepository.create({
       ...createUserDto,
       password: hashedPassword,
-      role: createUserDto.role || UserRole.USER,
+      role: (createUserDto.role as UserRole) || UserRole.USER,
+      status: (createUserDto.status as UserStatus) || UserStatus.ACTIVE,
     });
 
-    return await this.userRepository.save(user);
+    const savedUser = await this.userRepository.save(user);
+    
+    // Remove password from response
+    const { password: _, ...userWithoutPassword } = savedUser;
+    return userWithoutPassword as User;
   }
 
   async findAll(
@@ -114,10 +123,25 @@ export class UsersService {
 
   async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
     const user = await this.findOne(id);
+    
+    // Check for email conflicts if email is being updated
+    if (updateUserDto.email && updateUserDto.email !== user.email) {
+      const existingUser = await this.userRepository.findOne({
+        where: { email: updateUserDto.email },
+      });
+      
+      if (existingUser) {
+        throw new ConflictException('User with this email already exists');
+      }
+    }
 
     Object.assign(user, updateUserDto);
 
-    return await this.userRepository.save(user);
+    const savedUser = await this.userRepository.save(user);
+    
+    // Remove password from response
+    const { password: _, ...userWithoutPassword } = savedUser;
+    return userWithoutPassword as User;
   }
 
   async remove(id: string): Promise<void> {

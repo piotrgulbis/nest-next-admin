@@ -2,13 +2,15 @@ import { Repository } from 'typeorm';
 import { User, UserRole, UserStatus } from '../entities/user.entity';
 export interface CreateUserDto {
     email: string;
-    password: string;
     firstName: string;
     lastName: string;
     role?: UserRole;
+    status?: UserStatus;
+    password?: string;
     phone?: string;
 }
 export interface UpdateUserDto {
+    email?: string;
     firstName?: string;
     lastName?: string;
     phone?: string;
