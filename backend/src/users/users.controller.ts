@@ -1,10 +1,10 @@
-import { 
-  Controller, 
-  Get, 
-  Post, 
-  Body, 
-  Param, 
-  Delete, 
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
   Put,
   Query,
   ParseUUIDPipe,
@@ -47,8 +47,8 @@ export class UsersController {
 
   @Put(':id')
   update(
-    @Param('id', ParseUUIDPipe) id: string, 
-    @Body() updateUserDto: UpdateUserDto
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() updateUserDto: UpdateUserDto,
   ) {
     return this.usersService.update(id, updateUserDto);
   }

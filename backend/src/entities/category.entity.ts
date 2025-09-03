@@ -20,63 +20,63 @@ import { Post } from './post.entity';
 @Entity('categories')
 export class Category {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+    id: string;
 
   @Column({ unique: true })
   @IsNotEmpty()
   @IsString()
   @MinLength(2)
   @MaxLength(100)
-  name: string;
+    name: string;
 
   @Column({ unique: true })
   @IsNotEmpty()
   @IsString()
   @MinLength(2)
   @MaxLength(100)
-  slug: string;
+    slug: string;
 
   @Column({ nullable: true })
   @IsOptional()
   @MaxLength(500)
-  description?: string;
+    description?: string;
 
   @Column({ nullable: true })
   @IsOptional()
-  color?: string; // Hex color code for UI
+    color?: string; // Hex color code for UI
 
   @Column({ nullable: true })
   @IsOptional()
-  icon?: string; // Icon name or URL
+    icon?: string; // Icon name or URL
 
   @Column({ default: true })
-  isActive: boolean;
+    isActive: boolean;
 
   @Column({ default: 0 })
-  sortOrder: number;
+    sortOrder: number;
 
   // Self-referencing for hierarchical categories
   @Column({ nullable: true })
-  parentId?: string;
+    parentId?: string;
 
   @ManyToOne(() => Category, (category) => category.children, {
     onDelete: 'SET NULL',
   })
   @JoinColumn({ name: 'parentId' })
-  parent?: Category;
+    parent?: Category;
 
   @OneToMany(() => Category, (category) => category.parent)
-  children: Category[];
+    children: Category[];
 
   @CreateDateColumn()
-  createdAt: Date;
+    createdAt: Date;
 
   @UpdateDateColumn()
-  updatedAt: Date;
+    updatedAt: Date;
 
   // Relations
   @OneToMany(() => Post, (post) => post.category)
-  posts: Post[];
+    posts: Post[];
 
   // Helper methods
   get isParent(): boolean {

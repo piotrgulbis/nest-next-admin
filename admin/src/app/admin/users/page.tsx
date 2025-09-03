@@ -2,13 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import AdminLayout from '@/components/AdminLayout';
-import {
-  UsersIcon,
-  PencilIcon,
-  TrashIcon,
-  EyeIcon,
-  PlusIcon,
-} from '@heroicons/react/24/outline';
+import { UsersIcon, PencilIcon, TrashIcon, EyeIcon, PlusIcon } from '@heroicons/react/24/outline';
 
 interface User {
   id: string;
@@ -216,7 +210,7 @@ export default function AdminUsers() {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {users.map((user) => (
+                {users.map(user => (
                   <tr key={user.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div>
@@ -227,12 +221,16 @@ export default function AdminUsers() {
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getRoleColor(user.role)}`}>
+                      <span
+                        className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getRoleColor(user.role)}`}
+                      >
                         {user.role}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(user.status)}`}>
+                      <span
+                        className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(user.status)}`}
+                      >
                         {user.status}
                       </span>
                     </td>
@@ -250,7 +248,7 @@ export default function AdminUsers() {
                         <button className="text-yellow-600 hover:text-yellow-900">
                           <PencilIcon className="w-4 h-4" />
                         </button>
-                        <button 
+                        <button
                           onClick={() => handleDeleteUser(user.id)}
                           className="text-red-600 hover:text-red-900"
                         >

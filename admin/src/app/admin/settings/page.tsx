@@ -40,7 +40,7 @@ export default function AdminSettings() {
   const handleInputChange = (key: string, value: string | boolean) => {
     setSettings(prev => ({
       ...prev,
-      [key]: value
+      [key]: value,
     }));
   };
 
@@ -59,7 +59,7 @@ export default function AdminSettings() {
           {/* Sidebar */}
           <div className="lg:w-64 flex-shrink-0">
             <nav className="space-y-2">
-              {tabs.map((tab) => (
+              {tabs.map(tab => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
@@ -84,22 +84,20 @@ export default function AdminSettings() {
                   {tabs.find(tab => tab.id === activeTab)?.name} Settings
                 </h2>
               </div>
-              
+
               <div className="p-6 space-y-6">
                 {activeTab === 'general' && (
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700">
-                        Site Name
-                      </label>
+                      <label className="block text-sm font-medium text-gray-700">Site Name</label>
                       <input
                         type="text"
                         value={settings.siteName}
-                        onChange={(e) => handleInputChange('siteName', e.target.value)}
+                        onChange={e => handleInputChange('siteName', e.target.value)}
                         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
-                    
+
                     <div>
                       <label className="block text-sm font-medium text-gray-700">
                         Site Description
@@ -107,11 +105,11 @@ export default function AdminSettings() {
                       <textarea
                         rows={3}
                         value={settings.siteDescription}
-                        onChange={(e) => handleInputChange('siteDescription', e.target.value)}
+                        onChange={e => handleInputChange('siteDescription', e.target.value)}
                         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
-                    
+
                     <div>
                       <label className="block text-sm font-medium text-gray-700">
                         Contact Email
@@ -119,20 +117,23 @@ export default function AdminSettings() {
                       <input
                         type="email"
                         value={settings.contactEmail}
-                        onChange={(e) => handleInputChange('contactEmail', e.target.value)}
+                        onChange={e => handleInputChange('contactEmail', e.target.value)}
                         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
-                    
+
                     <div className="flex items-center">
                       <input
                         id="maintenance-mode"
                         type="checkbox"
                         checked={settings.maintenanceMode}
-                        onChange={(e) => handleInputChange('maintenanceMode', e.target.checked)}
+                        onChange={e => handleInputChange('maintenanceMode', e.target.checked)}
                         className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                       />
-                      <label htmlFor="maintenance-mode" className="ml-2 block text-sm text-gray-900">
+                      <label
+                        htmlFor="maintenance-mode"
+                        className="ml-2 block text-sm text-gray-900"
+                      >
                         Enable Maintenance Mode
                       </label>
                     </div>
@@ -152,9 +153,11 @@ export default function AdminSettings() {
                         </div>
                       </div>
                     </div>
-                    
+
                     <div>
-                      <h3 className="text-sm font-medium text-gray-700 mb-3">Database Information</h3>
+                      <h3 className="text-sm font-medium text-gray-700 mb-3">
+                        Database Information
+                      </h3>
                       <dl className="grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-2">
                         <div>
                           <dt className="text-sm font-medium text-gray-500">Database Type</dt>
@@ -186,11 +189,11 @@ export default function AdminSettings() {
                       <input
                         type="number"
                         value={settings.maxFileSize}
-                        onChange={(e) => handleInputChange('maxFileSize', e.target.value)}
+                        onChange={e => handleInputChange('maxFileSize', e.target.value)}
                         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
-                    
+
                     <div>
                       <label className="block text-sm font-medium text-gray-700">
                         Allowed File Types
@@ -198,7 +201,7 @@ export default function AdminSettings() {
                       <input
                         type="text"
                         value={settings.allowedFileTypes}
-                        onChange={(e) => handleInputChange('allowedFileTypes', e.target.value)}
+                        onChange={e => handleInputChange('allowedFileTypes', e.target.value)}
                         placeholder="jpg,png,pdf,doc"
                         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                       />
@@ -206,16 +209,19 @@ export default function AdminSettings() {
                         Comma-separated list of allowed file extensions
                       </p>
                     </div>
-                    
+
                     <div className="flex items-center">
                       <input
                         id="enable-registration"
                         type="checkbox"
                         checked={settings.enableRegistration}
-                        onChange={(e) => handleInputChange('enableRegistration', e.target.checked)}
+                        onChange={e => handleInputChange('enableRegistration', e.target.checked)}
                         className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                       />
-                      <label htmlFor="enable-registration" className="ml-2 block text-sm text-gray-900">
+                      <label
+                        htmlFor="enable-registration"
+                        className="ml-2 block text-sm text-gray-900"
+                      >
                         Allow User Registration
                       </label>
                     </div>
@@ -229,21 +235,27 @@ export default function AdminSettings() {
                         id="enable-notifications"
                         type="checkbox"
                         checked={settings.enableNotifications}
-                        onChange={(e) => handleInputChange('enableNotifications', e.target.checked)}
+                        onChange={e => handleInputChange('enableNotifications', e.target.checked)}
                         className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                       />
-                      <label htmlFor="enable-notifications" className="ml-2 block text-sm text-gray-900">
+                      <label
+                        htmlFor="enable-notifications"
+                        className="ml-2 block text-sm text-gray-900"
+                      >
                         Enable Email Notifications
                       </label>
                     </div>
-                    
+
                     <div className="bg-yellow-50 border border-yellow-200 rounded-md p-4">
                       <div className="flex">
                         <BellIcon className="w-5 h-5 text-yellow-400 mr-2" />
                         <div>
-                          <h3 className="text-sm font-medium text-yellow-800">Notification Settings</h3>
+                          <h3 className="text-sm font-medium text-yellow-800">
+                            Notification Settings
+                          </h3>
                           <p className="text-sm text-yellow-700 mt-1">
-                            Email notifications are currently disabled. Configure your SMTP settings to enable notifications.
+                            Email notifications are currently disabled. Configure your SMTP settings
+                            to enable notifications.
                           </p>
                         </div>
                       </div>
@@ -264,21 +276,27 @@ export default function AdminSettings() {
                         </div>
                       </div>
                     </div>
-                    
+
                     <div>
                       <h3 className="text-sm font-medium text-gray-700 mb-3">API Endpoints</h3>
                       <div className="space-y-2">
                         <div className="flex justify-between items-center py-2 px-3 bg-gray-50 rounded">
                           <span className="text-sm font-mono">/api/users</span>
-                          <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Active</span>
+                          <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">
+                            Active
+                          </span>
                         </div>
                         <div className="flex justify-between items-center py-2 px-3 bg-gray-50 rounded">
                           <span className="text-sm font-mono">/api/posts</span>
-                          <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Active</span>
+                          <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">
+                            Active
+                          </span>
                         </div>
                         <div className="flex justify-between items-center py-2 px-3 bg-gray-50 rounded">
                           <span className="text-sm font-mono">/api/dashboard</span>
-                          <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Active</span>
+                          <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">
+                            Active
+                          </span>
                         </div>
                       </div>
                     </div>

@@ -50,7 +50,8 @@ export class PostsService {
   async create(createPostDto: CreatePostDto): Promise<Post> {
     const post = this.postRepository.create({
       ...createPostDto,
-      publishedAt: createPostDto.status === PostStatus.PUBLISHED ? new Date() : undefined,
+      publishedAt:
+        createPostDto.status === PostStatus.PUBLISHED ? new Date() : undefined,
     });
 
     return await this.postRepository.save(post);
@@ -146,7 +147,10 @@ export class PostsService {
     await this.postRepository.increment({ id }, 'shareCount', 1);
   }
 
-  async getPublished(page = 1, limit = 10): Promise<{ posts: Post[]; total: number; pages: number }> {
+  async getPublished(
+    page = 1,
+    limit = 10,
+  ): Promise<{ posts: Post[]; total: number; pages: number }> {
     return this.findAll(page, limit, PostStatus.PUBLISHED);
   }
 

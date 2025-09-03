@@ -48,6 +48,7 @@ CREATE DATABASE nest_admin_db;
 ```
 
 **Or using Command Line:**
+
 ```bash
 # Connect as postgres user
 psql -U postgres

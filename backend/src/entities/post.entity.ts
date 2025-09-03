@@ -38,39 +38,39 @@ export enum PostType {
 @Index(['categoryId', 'status'])
 export class Post {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+    id: string;
 
   @Column()
   @IsNotEmpty()
   @IsString()
   @MinLength(5)
   @MaxLength(200)
-  title: string;
+    title: string;
 
   @Column({ unique: true })
   @IsNotEmpty()
   @IsString()
   @MinLength(5)
   @MaxLength(200)
-  slug: string;
+    slug: string;
 
   @Column({ nullable: true })
   @IsOptional()
   @MaxLength(300)
-  excerpt?: string;
+    excerpt?: string;
 
   @Column('text')
   @IsNotEmpty()
-  content: string;
+    content: string;
 
   @Column({ nullable: true })
   @IsOptional()
   @IsUrl()
-  featuredImage?: string;
+    featuredImage?: string;
 
   @Column({ nullable: true })
   @IsOptional()
-  featuredImageAlt?: string;
+    featuredImageAlt?: string;
 
   @Column({
     type: 'enum',
@@ -78,7 +78,7 @@ export class Post {
     default: PostStatus.DRAFT,
   })
   @IsEnum(PostStatus)
-  status: PostStatus;
+    status: PostStatus;
 
   @Column({
     type: 'enum',
@@ -86,70 +86,75 @@ export class Post {
     default: PostType.ARTICLE,
   })
   @IsEnum(PostType)
-  type: PostType;
+    type: PostType;
 
   @Column({ default: 0 })
-  viewCount: number;
+    viewCount: number;
 
   @Column({ default: 0 })
-  likeCount: number;
+    likeCount: number;
 
   @Column({ default: 0 })
-  shareCount: number;
+    shareCount: number;
 
   @Column({ nullable: true })
-  publishedAt?: Date;
-
-  @Column({ nullable: true })
-  @IsOptional()
-  metaTitle?: string;
+    publishedAt?: Date;
 
   @Column({ nullable: true })
   @IsOptional()
-  metaDescription?: string;
+    metaTitle?: string;
+
+  @Column({ nullable: true })
+  @IsOptional()
+    metaDescription?: string;
 
   @Column('simple-array', { nullable: true })
   @IsOptional()
-  tags?: string[];
+    tags?: string[];
 
   @Column({ default: true })
-  allowComments: boolean;
+    allowComments: boolean;
 
   @Column({ default: false })
-  isFeatured: boolean;
+    isFeatured: boolean;
 
   @Column({ default: false })
-  isSticky: boolean;
+    isSticky: boolean;
 
   // Foreign Keys
   @Column()
-  authorId: string;
+    authorId: string;
 
   @Column({ nullable: true })
-  categoryId?: string;
+    categoryId?: string;
 
   @CreateDateColumn()
-  createdAt: Date;
+    createdAt: Date;
 
   @UpdateDateColumn()
-  updatedAt: Date;
+    updatedAt: Date;
 
   // Relations
   @ManyToOne(() => User, (user) => user.posts, {
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'authorId' })
-  author: User;
+    author: User;
 
   @ManyToOne(() => Category, (category) => category.posts, {
     onDelete: 'SET NULL',
   })
   @JoinColumn({ name: 'categoryId' })
-  category?: Category;
+    category?: Category;
 
   // Helper methods
   get isPublished(): boolean {
-    return this.status === PostStatus.PUBLISHED && this.publishedAt !== null && this.publishedAt !== undefined && this.publishedAt <= new Date();
+    return (
+      this.status === PostStatus.PUBLISHED &&
+      this.publishedAt !== null &&
+      this.publishedAt !== undefined &&
+      this.publishedAt <= new Date()
+    );
   }
 
   get isDraft(): boolean {
@@ -163,6 +168,6 @@ export class Post {
   }
 
   get summary(): string {
-    return this.excerpt || this.content.substring(0, 200) + '...';
+    return this.excerpt || `${this.content.substring(0, 200)  }...`;
   }
 }
