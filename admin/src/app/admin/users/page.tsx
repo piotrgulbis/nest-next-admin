@@ -1,8 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 import AdminLayout from '@/components/AdminLayout';
-import { UsersIcon, PencilIcon, TrashIcon, EyeIcon, PlusIcon } from '@heroicons/react/24/outline';
+import { UsersIcon, PencilIcon, TrashIcon, EyeIcon, PlusIcon, CheckCircleIcon, XMarkIcon } from '@heroicons/react/24/outline';
 
 interface User {
   id: string;
@@ -21,9 +23,11 @@ interface UsersResponse {
   pages: number;
 }
 
-export default function AdminUsers() {
+function AdminUsersContent() {
+  const searchParams = useSearchParams();
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
+  const [successMessage, setSuccessMessage] = useState<string>('');
   const [stats, setStats] = useState({
     total: 0,
     active: 0,
@@ -34,7 +38,26 @@ export default function AdminUsers() {
   useEffect(() => {
     fetchUsers();
     fetchStats();
-  }, []);
+    
+    // Check for success messages from URL parameters
+    const success = searchParams.get('success');
+    if (success === 'created') {
+      setSuccessMessage('User created successfully!');
+    } else if (success === 'updated') {
+      setSuccessMessage('User updated successfully!');
+    }
+    
+    // Clear success message after 5 seconds
+    if (success) {
+      const timer = setTimeout(() => {
+        setSuccessMessage('');
+        // Remove success parameter from URL
+        const newUrl = window.location.pathname;
+        window.history.replaceState({}, '', newUrl);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [searchParams]);
 
   const fetchUsers = async () => {
     try {
@@ -126,11 +149,30 @@ export default function AdminUsers() {
               Manage your application users and their permissions.
             </p>
           </div>
-          <button className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+          <Link 
+            href="/admin/users/create"
+            className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          >
             <PlusIcon className="w-5 h-5 mr-2" />
             Add User
-          </button>
+          </Link>
         </div>
+
+        {/* Success Message */}
+        {successMessage && (
+          <div className="bg-green-50 border border-green-200 rounded-md p-4 flex items-center justify-between">
+            <div className="flex items-center">
+              <CheckCircleIcon className="w-5 h-5 text-green-400 mr-2" />
+              <span className="text-sm text-green-800">{successMessage}</span>
+            </div>
+            <button
+              onClick={() => setSuccessMessage('')}
+              className="text-green-400 hover:text-green-600"
+            >
+              <XMarkIcon className="w-5 h-5" />
+            </button>
+          </div>
+        )}
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -242,15 +284,23 @@ export default function AdminUsers() {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <div className="flex space-x-2">
-                        <button className="text-blue-600 hover:text-blue-900">
+                        <button 
+                          className="text-blue-600 hover:text-blue-900"
+                          title="View user details"
+                        >
                           <EyeIcon className="w-4 h-4" />
                         </button>
-                        <button className="text-yellow-600 hover:text-yellow-900">
+                        <Link
+                          href={`/admin/users/${user.id}/edit`}
+                          className="text-yellow-600 hover:text-yellow-900"
+                          title="Edit user"
+                        >
                           <PencilIcon className="w-4 h-4" />
-                        </button>
+                        </Link>
                         <button
                           onClick={() => handleDeleteUser(user.id)}
                           className="text-red-600 hover:text-red-900"
+                          title="Delete user"
                         >
                           <TrashIcon className="w-4 h-4" />
                         </button>
@@ -264,5 +314,19 @@ export default function AdminUsers() {
         </div>
       </div>
     </AdminLayout>
+  );
+}
+
+export default function AdminUsers() {
+  return (
+    <Suspense fallback={
+      <AdminLayout>
+        <div className="flex items-center justify-center h-64">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        </div>
+      </AdminLayout>
+    }>
+      <AdminUsersContent />
+    </Suspense>
   );
 }
